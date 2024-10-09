@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Helpers\Category;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 
 class GaleriPhotoController extends Controller
@@ -43,10 +44,13 @@ class GaleriPhotoController extends Controller
 
         ]);
 
+        // dd($validated);
+
         $post = Post::create([
             'title'         =>$validated['title'],
             'category'      =>$validated['category'],
             'description'   =>$validated['description'],
+            'slug'          => Str::slug($validated['title']),
             'user_id'       =>Auth::user()->id
 
         ]);
@@ -56,17 +60,19 @@ class GaleriPhotoController extends Controller
 
     }
 
-    public function edit(string $postId)
+    public function edit(string $slug)
     {
-        $post = Post::findOrfail($postId);
+        $post = Post::where('slug', $slug)->first();
+        // dd($slug);
+        // $post = Post::findOrfail($postId);
 
-        // mengembalikan ke halaman viewe admin-edit
+        // // mengembalikan ke halaman viewe admin-edit
         return view('admin.galeri-photo.edit',[
             'pageTitle' => 'Edit Album',
             'post'      =>$post,
             'listCategory' => Category::categories
         ]);
-        // dd('mau edit galeri photo', $post);
+        dd('mau edit galeri photo', $post);
 
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Image;
 use App\Helpers\Category;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -36,11 +37,14 @@ class GaleriPhotoController extends Controller
         $validated = $request->validate([
             'title'       =>'required',
             'category'    =>'required',
-            'description' =>'required'
+            'description' =>'required',
+            'images'      =>'required',
+            'images.*'    =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ],[
             'title.required'        =>'Judul wajib di isi......',
-            'description.required'  =>'Keterangan wajib di isi.....'
+            'description.required'  =>'Keterangan wajib di isi.....',
+            'images.required'       =>'Photo Album Galeri Photo Wajib Diisi....'
 
         ]);
 
@@ -54,6 +58,19 @@ class GaleriPhotoController extends Controller
             'user_id'       =>Auth::user()->id
 
         ]);
+
+        if ($validated['images']){
+            foreach($request->file('images') as $file){
+                if ($file->isValid()) {
+                $path = $file->store('images', 'public');
+                Image::create([
+                    'post_id'  => $post->id,
+                    'path'     => $path
+                ]);
+                }
+
+            }
+        }
         return redirect(route('admin-galeri-photo', absolute: false));
        /*  dd($post);
         return redirect(); */

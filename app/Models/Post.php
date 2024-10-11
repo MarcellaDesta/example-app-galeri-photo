@@ -17,6 +17,10 @@ class Post extends Model
         'id', 'title', 'description', 'category', 'user_id','slug'
     ];
 
+    public function images(){
+        return $this->hasMany(Image::class);
+    }
+
 
     // Membuat setting atribut title
     public function setTitleAttribute($value)

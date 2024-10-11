@@ -1,9 +1,9 @@
 <?php
 
-use App\Models\Post;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Post;
 
 return new class extends Migration
 {
@@ -14,9 +14,8 @@ return new class extends Migration
     {
         Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->string('path');
             $table->foreignIdFor(Post::class);
+            $table->string('path');
             $table->timestamps();
         });
     }

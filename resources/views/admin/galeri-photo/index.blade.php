@@ -62,7 +62,15 @@
                     {{ $post->description }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ __('Belum ada gambar')}}
+                    {{-- <img
+                         src="{{ asset('storage/' . $post->iamges->path)  }}"
+                        alt =""> --}}
+                        @foreach ($post->images as $image)
+                        <img  src="{{ asset('storage/' . $image->path) }}"
+                        class="w-12 border roundede-sm"
+                        alt="">
+                        {{-- {{ $image->path }} --}}
+                        @endforeach
                 </td>
                 <td class="px-6 py-4">
                     {{ $post->category }}

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Post;
 use App\Models\Image;
 use App\Helpers\Category;
+use Illuminate\Container\Attributes\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
@@ -17,9 +18,15 @@ class GaleriPhotoController extends Controller
     {
         /* dd(Post::all()); */
        /*  $listPost = Post::all(); */
+       // menampilkan isi data post dan images
+       // Post::all();
+       // elouquent
+    //    $post = Post::with('images')->get();
+    //    dd ($post);
+
         return view('admin.galeri-photo.index',[
             'pageTitle' => 'Galeri-photo',
-            'listPost'  => Post::all(),
+            'listPost'  => Post::with('images')->get(),
         ]);
     }
 

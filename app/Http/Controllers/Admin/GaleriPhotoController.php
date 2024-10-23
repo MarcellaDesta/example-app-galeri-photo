@@ -16,13 +16,13 @@ class GaleriPhotoController extends Controller
 {
     public function index()
     {
-        /* dd(Post::all()); */
-       /*  $listPost = Post::all(); */
-       // menampilkan isi data post dan images
-       // Post::all();
+           /* dd(Post::all()); */
+          /*  $listPost = Post::all(); */
+         // menampilkan isi data post dan images
+        // Post::all();
        // elouquent
-    //    $post = Post::with('images')->get();
-    //    dd ($post);
+      //    $post = Post::with('images')->get();
+     //    dd ($post);
 
         return view('admin.galeri-photo.index',[
             'pageTitle' => 'Galeri-photo',
@@ -61,7 +61,7 @@ class GaleriPhotoController extends Controller
             'title'         =>$validated['title'],
             'category'      =>$validated['category'],
             'description'   =>$validated['description'],
-            'slug'          => Str::slug($validated['title']),
+            'slug'          =>Str::slug($validated['title']),
             'user_id'       =>Auth::user()->id
 
         ]);
@@ -97,6 +97,36 @@ class GaleriPhotoController extends Controller
             'listCategory' => Category::categories
         ]);
         dd('mau edit galeri photo', $post);
+
+    }
+
+    public function updateGaleri(Request $request, Post $post)
+    {
+        // Logika untuk update
+
+        $validated = $request->validate([
+            'title'       =>'required',
+            'category'    =>'required',
+            'description' =>'required',
+            'images'      =>'required',
+            'images.*'    =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ],[
+            'title.required'        =>'Judul wajib di isi......',
+            'description.required'  =>'Keterangan wajib di isi.....',
+            'images.required'       =>'Photo Album Galeri Photo Wajib Diisi....'
+
+        ]);
+
+        $post->update([
+            'title'         =>$validated['title'],
+            'category'      =>$validated['category'],
+            'description'   =>$validated['description'],
+            'slug'          =>Str::slug($validated['title']),
+            'user_id'       =>Auth::user()->id
+
+        ]);
+        dd($post);
 
     }
 }

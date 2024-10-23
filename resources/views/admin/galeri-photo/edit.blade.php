@@ -1,6 +1,7 @@
 <x-app-layout>
     <title>Edit {{ $post->title }} {{ config('app.name') }}</title>
 
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -10,7 +11,7 @@
                         <!-- Modal body -->
                         <form
                             method="POST"
-                            action="{{ route('admin-edit-galeri-photo', $post->id) }}"
+                            action="{{ route('admin-update-galeri-photo', [$post->slug]) }}"
                             enctype="multipart/form-data"
                             class="p-4 md:p-5">
                             @csrf

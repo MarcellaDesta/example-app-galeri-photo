@@ -9,6 +9,7 @@ use App\Models\Image;
 use App\Helpers\Category;
 use Illuminate\Container\Attributes\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 
@@ -137,9 +138,48 @@ class GaleriPhotoController extends Controller
         ]);
         // dd($post);
         if ($request->hasFile('images')) {
-            dd('ada gambar cuyy..');
+            // dd('ada gambar cuyy..');
+            // mengambil seluruh gambar berdasarkan post_id
+            $images = Image::where('post_id', $post->id)->get();
+
+            // melakukan looping atau membongkar objek $images
+            foreach ($images as $image) {
+           // objek images akan kita hapus
+           Storage::disk('public')->delete($image->path);
+
+           // hapus alamat path images dari kolom path di table
+           $image->delete();
+
+           // mengambil request file images melalui loopingan
+           foreach ($request->file('images') as $file) {
+
+            // membuat atau menyimpan gambar baru
+             if ($file->isValid())
+
+                // mengambil nama original
+                $originalName = $file->getClientOriginalName();
+
+                // penambahan time dan untuk membuat unik
+                $uniqueName = time() . '_' . $originalName;
+
+                // menggunakan store membuat nama file unik
+                // $path = $file->store('images', 'public');
+
+                // menyimpan data dengan nama original
+                $path = $file->storeAs('images', $uniqueName, 'public');
+
+                Image::create([
+                    'name'     =>$originalName,
+                    'post_id'  => $post->id,
+                    'path'     => $path
+                ]);
+        }
+            // kembali ke alamat awal
+            return redirect(route('admin-galeri-photo', absolute:false));
+            }
         } else {
-            dd('update berhasil namun tidak ada gambar baruy..');
+            return redirect(route('admin-galeri-photo', absolute:false));
+            // dd('update berhasil namun tidak ada gambar baruy..');
         }
     }
 }

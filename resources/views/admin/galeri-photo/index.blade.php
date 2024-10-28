@@ -65,6 +65,7 @@
                     {{-- <img
                          src="{{ asset('storage/' . $post->iamges->path)  }}"
                         alt =""> --}}
+
                         @foreach ($post->images as $image)
                         <img  src="{{ asset('storage/' . $image->path) }}"
                         class="w-12 border roundede-sm"

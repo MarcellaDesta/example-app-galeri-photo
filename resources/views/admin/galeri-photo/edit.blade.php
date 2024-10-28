@@ -11,7 +11,7 @@
                         <!-- Modal body -->
                         <form
                             method="POST"
-                            action="{{ route('admin-update-galeri-photo', [$post->slug]) }}"
+                            action="{{ route('admin-update-galeri-photo', $post->slug) }}"
                             enctype="multipart/form-data"
                             class="p-4 md:p-5">
                             @csrf
@@ -40,14 +40,34 @@
                                         id="multiple_files"
                                         type="file"
                                         multiple>
+
+                                        <div
+                                            class="mt-2">
+                                            @forelse ($images as $image)
+                                            <div>
+                                                <img
+                                                src="{{ asset('storage/' . $image->path) }}"
+                                                class="w-12 h-12 border roundede-sm"
+                                                alt="">
+                                                <p> {{ $image->name }} </p>
+                                            </div>
+
+                                            @empty
+
+                                            @endforelse
+
+
+
+
+                                        </div>
                                     <!-- Optionally display existing images -->
-                                    @if($post->images)
+                                    {{-- @if($post->images)
                                         <div class="mt-2">
                                             @foreach($post->images as $image)
-                                                <img src="{{ asset('storage/' . $image) }}" alt="Album Image" class="w-20 h-20 object-cover">
+                                                <img src="{{ asset('storage/' . $image) }}" alt="" class="w-20 h-20 object-cover">
                                             @endforeach
                                         </div>
-                                    @endif
+                                    @endif --}}
                                 </div>
                                 <div class="col-span-2 sm:col-span-1">
                                     <label for="category" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

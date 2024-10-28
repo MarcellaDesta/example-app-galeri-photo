@@ -69,53 +69,62 @@ class GaleriPhotoController extends Controller
         if ($validated['images']){
             foreach($request->file('images') as $file){
                 if ($file->isValid()) {
-                $path = $file->store('images', 'public');
+
+                // mengambil nama original
+                $originalName = $file->getClientOriginalName();
+
+                // penambahan time dan untuk membuat unik
+                $uniqueName = time() . '_' . $originalName;
+
+                // menggunakan store membuat nama file unik
+                // $path = $file->store('images', 'public');
+
+                // menyimpan data dengan nama original
+                $path = $file->storeAs('images', $uniqueName, 'public');
+
                 Image::create([
+                    'name'     =>$originalName,
                     'post_id'  => $post->id,
                     'path'     => $path
                 ]);
                 }
-
             }
         }
         return redirect(route('admin-galeri-photo', absolute: false));
        /*  dd($post);
         return redirect(); */
-
     }
 
     public function edit(string $slug)
     {
-        $post = Post::where('slug', $slug)->first();
+        $post = Post::with('images')->where('slug', $slug)->first();
         // dd($slug);
         // $post = Post::findOrfail($postId);
 
         // // mengembalikan ke halaman viewe admin-edit
         return view('admin.galeri-photo.edit',[
-            'pageTitle' => 'Edit Album',
-            'post'      =>$post,
+            'pageTitle'    => 'Edit Album',
+            'post'         => $post,
+            'images'       => $post->images ?? '',
             'listCategory' => Category::categories
         ]);
-        dd('mau edit galeri photo', $post);
-
+        // dd('mau edit galeri photo', $post);
     }
 
     public function updateGaleri(Request $request, Post $post)
     {
-        // Logika untuk update
 
+        // Logika untuk update
         $validated = $request->validate([
             'title'       =>'required',
             'category'    =>'required',
             'description' =>'required',
-            'images'      =>'required',
-            'images.*'    =>'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'images'      =>'nullable',
+            'images.*'    =>'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 
         ],[
             'title.required'        =>'Judul wajib di isi......',
-            'description.required'  =>'Keterangan wajib di isi.....',
-            'images.required'       =>'Photo Album Galeri Photo Wajib Diisi....'
-
+            'description.required'  =>'Keterangan wajib di isi.....'
         ]);
 
         $post->update([
@@ -126,7 +135,11 @@ class GaleriPhotoController extends Controller
             'user_id'       =>Auth::user()->id
 
         ]);
-        dd($post);
-
+        // dd($post);
+        if ($request->hasFile('images')) {
+            dd('ada gambar cuyy..');
+        } else {
+            dd('update berhasil namun tidak ada gambar baruy..');
+        }
     }
 }

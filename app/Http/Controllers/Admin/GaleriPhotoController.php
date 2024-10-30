@@ -115,6 +115,7 @@ class GaleriPhotoController extends Controller
     public function updateGaleri(Request $request, Post $post)
     {
 
+
         // Logika untuk update
         $validated = $request->validate([
             'title'       =>'required',
@@ -137,43 +138,51 @@ class GaleriPhotoController extends Controller
 
         ]);
         // dd($post);
+        // mengambil request input
+        $checkBoxImages = Image::whereIn('id', $request->input('image') ?? [])->get();
+        // dd($checkBoximages);
+
+        // melakukan pengecekan jika ada list checkbox yang akan dihapus
+        if ($checkBoxImages) {
+
+            // melakukan looping untuk membongkar array checkboximages
+            foreach ($checkBoxImages as $image) {
+               // melakukan penghapusan file image storage
+                Storage::disk('public')->delete($image->path);
+
+
+               // menghapus objek image dari tabel images
+               $image->delete();
+
+            }
+        }
+
+        // jika ada requqesst file image
+
         if ($request->hasFile('images')) {
-            // dd('ada gambar cuyy..');
-            // mengambil seluruh gambar berdasarkan post_id
-            $images = Image::where('post_id', $post->id)->get();
 
             // melakukan looping atau membongkar objek $images
-            foreach ($images as $image) {
-           // objek images akan kita hapus
-           Storage::disk('public')->delete($image->path);
+            foreach ($request->file('images') as $file) {
 
-           // hapus alamat path images dari kolom path di table
-           $image->delete();
+            // pengecekan valid
+            if ($file->isValid()) {
 
-           // mengambil request file images melalui loopingan
-           foreach ($request->file('images') as $file) {
-
-            // membuat atau menyimpan gambar baru
-             if ($file->isValid())
-
-                // mengambil nama original
+                // ambil nama original nama file
                 $originalName = $file->getClientOriginalName();
 
-                // penambahan time dan untuk membuat unik
+                // mmebuat nama file menjadi unik
                 $uniqueName = time() . '_' . $originalName;
 
-                // menggunakan store membuat nama file unik
-                // $path = $file->store('images', 'public');
-
-                // menyimpan data dengan nama original
-                $path = $file->storeAs('images', $uniqueName, 'public');
+                // menyimpan file ke storage disk public
+                $path = $file->storeAs('images', $uniqueName,'public');
 
                 Image::create([
                     'name'     =>$originalName,
                     'post_id'  => $post->id,
                     'path'     => $path
                 ]);
-        }
+            }
+
             // kembali ke alamat awal
             return redirect(route('admin-galeri-photo', absolute:false));
             }

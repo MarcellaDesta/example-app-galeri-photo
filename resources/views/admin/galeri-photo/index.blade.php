@@ -39,9 +39,9 @@
                 <th scope="col" class="px-6 py-3">
                     Gambar
                 </th>
-                <th scope="col" class="px-6 py-3">
+                {{-- <th scope="col" class="px-6 py-3">
                     Category
-                </th>
+                </th> --}}
 
 
                 <th scope="col" class="px-6 py-3">
@@ -62,20 +62,30 @@
                     {{ $post->description }}
                 </td>
                 <td class="px-6 py-4">
+                    @if (count ($post->images ) > 0 )
+                        Gambar({{ count($post->images) }})
+
+                    @else
+                        Gambar(0)
+
+                    @endif
                     {{-- <img
                          src="{{ asset('storage/' . $post->iamges->path)  }}"
                         alt =""> --}}
 
-                        @foreach ($post->images as $image)
-                        <img  src="{{ asset('storage/' . $image->path) }}"
-                        class="w-12 border roundede-sm"
-                        alt="">
+
+                        {{-- @foreach ($post->images as $image)
+                        <div  class="inline-flex gap-2">
+                            <img  src="{{ asset('storage/' . $image->path) }}"
+                                class="w-12 border roundede-sm"
+                                     alt="">
+                        </div>
                         {{-- {{ $image->path }} --}}
-                        @endforeach
+                        {{-- @endforeach --}} 
                 </td>
-                <td class="px-6 py-4">
+                {{-- <td class="px-6 py-4">
                     {{ $post->category }}
-                </td>
+                </td> --}}
                 <td class="px-6 py-4 text-right">
                     <a
                     href="{{ route('admin-edit-galeri-photo', [$post->slug]) }}"

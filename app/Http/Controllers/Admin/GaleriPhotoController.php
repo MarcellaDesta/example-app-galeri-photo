@@ -192,3 +192,4 @@ class GaleriPhotoController extends Controller
         }
     }
 }
+ //

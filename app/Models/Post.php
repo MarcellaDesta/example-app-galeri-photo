@@ -17,6 +17,12 @@ class Post extends Model
         'id', 'title', 'description', 'category', 'user_id','slug'
     ];
 
+    // membuat function relasi antara post dengan contents
+    public function contents()
+    {
+        return $this->hasMany(Content::class);
+    }
+
     public function images(){
         return $this->hasMany(Image::class);
     }

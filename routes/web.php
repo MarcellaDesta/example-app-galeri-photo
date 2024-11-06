@@ -23,8 +23,10 @@ Route::middleware('auth')->group(function () {
     Route::get('admin-create-galeri-photo',[GaleriPhotoController::class, 'create'])->name('admin-create-galeri-photo');
     Route::post('admin-store-galeri-photo',[GaleriPhotoController::class, 'store'])->name('admin-store-galeri-photo');
     Route::get('admin-edit-galeri-photo/{post:slug}',[GaleriPhotoController::class, 'edit'])->name('admin-edit-galeri-photo');
+    Route::get('admin-show-galeri-photo/{post:slug}',[GaleriPhotoController::class, 'show'])->name('admin-show-galeri-photo');
     Route::put('admin-update-galeri-photo/{post:slug}',[GaleriPhotoController::class,'updateGaleri'])->name('admin-update-galeri-photo');
     Route::get('admin-newsportal',[NewsPortalController::class,'index'])->name('admin-newsportal');
+
     // Route::get('admin-edit-galeri-photo/{post}',[GaleriPhotoController::class, 'edit'])->name('admin-edit-galeri-photo');
     // Route-User
     Route::get('/user-dashboard',[AdminDashboard::class, 'index'])->name('user-dashboard');

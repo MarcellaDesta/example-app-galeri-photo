@@ -16,9 +16,9 @@
                         <x-nav-link :href="route('admin-dashboard')" :active="request()->routeIs('admin-dashboard')">
                             {{ __('Dashboard') }}
                         </x-nav-link>
-                        
+
                         <x-nav-link :href="route('admin-galeri-photo')" :active="request()->routeIs('admin-galeri-photo')">
-                            {{ __('Galeri photo') }}
+                            {{ __('Galeri Photo') }}
                         </x-nav-link>
 
                         <x-nav-link :href="route('admin-newsportal')" :active="request()->routeIs('admin-newsportal')">

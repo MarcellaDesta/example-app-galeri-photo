@@ -12,8 +12,17 @@ class NewsPortalController extends Controller
     {
         // mengirim data ke halaman  newsPortal
          return view('admin.newsportals.index', [
-            'pageTitle' => 'News Portal',
+            'pageTitle'   => 'News Portal',
             'newsportals' => Post::with('contents')->get()
          ]);
+    }
+
+    public function create()
+    {
+        // mengirim data ke halaman  newsPortal
+        return view('admin.newsportals.create', [
+            'pageTitle'   => 'Form News Portal'
+            // 'newsportals' => Post::with('contents')->get()
+        ]);
     }
 }

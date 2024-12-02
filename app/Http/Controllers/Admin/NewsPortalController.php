@@ -25,4 +25,9 @@ class NewsPortalController extends Controller
             // 'newsportals' => Post::with('contents')->get()
         ]);
     }
+
+    public function store(Request $request)
+    {
+        dd($request);
+    }
 }

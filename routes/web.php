@@ -27,6 +27,7 @@ Route::middleware('auth')->group(function () {
     Route::put('admin-update-galeri-photo/{post:slug}',[GaleriPhotoController::class,'updateGaleri'])->name('admin-update-galeri-photo');
     Route::get('admin-newsportal',[NewsPortalController::class,'index'])->name('admin-newsportal');
     Route::get('admin-create-news-portal',[NewsPortalController::class,'create'])->name('admin-create-news-portal');
+    Route::post('admin-newsportal-store',[NewsPortalController::class,'store'])->name('admin-newsportal-store');
 
     // Route::get('admin-edit-galeri-photo/{post}',[GaleriPhotoController::class, 'edit'])->name('admin-edit-galeri-photo');
     // Route-User

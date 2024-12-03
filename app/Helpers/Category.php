@@ -4,7 +4,7 @@
  class Category {
     public const categories =[
         'Makanan' => 'makanan',
-        'Pendiddikan' => 'pendidikan',
+        'Pendidikan' => 'pendidikan',
         'Olahraga'    => 'olahraga',
         'Travelling'  => 'travelling',
         'General'  => 'general'

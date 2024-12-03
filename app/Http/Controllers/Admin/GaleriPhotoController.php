@@ -194,10 +194,10 @@ class GaleriPhotoController extends Controller
 
     public function show (Post $post)
     {
-       $album = Post::where('id', $post->id)->with('images')->first();
+    //    $album = Post::where('id', $post->id)->with('images')->first();
         return view('admin.galeri-photo.show',[
-            'pageTitle' => 'show',
-            'album'     =>  $post
+            'pageTitle' => 'view',
+            'album'     =>  Post::where('id', $post->id)->with('images')->first()
         ]);
     }
 }

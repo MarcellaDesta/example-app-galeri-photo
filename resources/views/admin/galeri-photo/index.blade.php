@@ -97,6 +97,15 @@
                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                     View
                     </a>
+                    <form method="POST" action="{{ route('admin-delete-album', $post) }}">
+                        @csrf
+                        @method('delete')
+                        <a
+                            href="route('admin-delete-album', $post)"
+                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            {{ __('Delete') }}
+                        </a>
+                    </form>
                 </td>
             </tr>
             @empty

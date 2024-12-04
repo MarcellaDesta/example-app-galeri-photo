@@ -200,5 +200,15 @@ class GaleriPhotoController extends Controller
             'album'     =>  Post::where('id', $post->id)->with('images')->first()
         ]);
     }
+
+    public function destroy(Post $post)
+    {
+        // $id = request()->input('id');
+        $post= Post::where('id', $post->id)->with('images')->first();
+        $post->delete();
+        return redirect(route('admin-galeri-photo', absolute:false));
+
+
+    }
 }
  //

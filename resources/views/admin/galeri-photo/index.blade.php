@@ -11,13 +11,38 @@
                    {{-- {{ $listPost ['title'] }} --}}
 
                    {{--Start Tombol Tambah --}}
-                   <button
-                   type="button"
-                   class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
-                    <a href="{{ route('admin-create-galeri-photo')}}">
-                        Tambah Galeri Photo
-                    </a>
-                </button>
+                   <div class="flex item-center gap-4">
+                      <button
+                            type="button"
+                            class="px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                <a href="{{ route('admin-create-galeri-photo')}}">
+                                    Tambah Galeri Photo
+                                </a>
+                       </button>
+                    @if (session('status') === 'deleted-successfuly')
+                        {{-- <p
+                        x-data="{ show: true }"
+                        x-show="show"
+                        x-transition
+                        x-init="setTimeout(() => show = false, 2000)"
+                        class="text-sm text-gray-600 dark:text-gray-400"
+                        >{{ __('Berhasil dihapus...') }}</p> --}}
+                        <div
+                            x-data="{ show: true }"
+                            x-show="show"
+                            x-transition
+                            x-init="setTimeout(() => show = false, 2000)"
+                        class="flex items-center p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
+                            <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                            </svg>
+                            <span class="sr-only">Info</span>
+                            <div>
+                              <span class="font-medium">Berhasil dihapus!!</span>
+                            </div>
+                          </div>
+                    @endif
+                   </div>
                    {{-- End Tombol Tambah --}}
 
                    {{-- start display data posts --}}
@@ -102,7 +127,8 @@
                         @method('delete')
                         <a
                             href="route('admin-delete-album', $post)"
-                            onclick="event.preventDefault(); this.closest('form').submit();">
+                            class="font-medium text-red-600 dark:text-red-500 hover:underline"
+                            onclick="event.preventDefault(); if(confirm('yakin untuk menghapus?')) this.closest('form').submit();">
                             {{ __('Delete') }}
                         </a>
                     </form>

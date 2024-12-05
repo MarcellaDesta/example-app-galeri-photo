@@ -204,9 +204,15 @@ class GaleriPhotoController extends Controller
     public function destroy(Post $post)
     {
         // $id = request()->input('id');
-        $post= Post::where('id', $post->id)->with('images')->first();
+        $album = Post::with('images')->find($post->id);
+        foreach ($album->images as $image) {
+            // melakukan penghapusan file image storage
+             Storage::disk('public')->delete($image->path);
+            // menghapus objek image dari tabel images
+            $image->delete();
+        }
         $post->delete();
-        return redirect(route('admin-galeri-photo', absolute:false));
+        return redirect(route('admin-galeri-photo', absolute:false))->with('status', 'deleted-successfuly');
 
 
     }

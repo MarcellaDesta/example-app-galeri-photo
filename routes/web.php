@@ -18,7 +18,7 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     // Route-Admin
-    Route::get('/admin-dashboard' , [UserDashboardController::class, 'index'])->name('admin-dashboard');
+    Route::get('/admin-dashboard' , [AdminDashboard::class, 'index'])->name('admin-dashboard');
     Route::get('admin-galeri-photo',[GaleriPhotoController::class, 'index'])->name('admin-galeri-photo');
     Route::get('admin-create-galeri-photo',[GaleriPhotoController::class, 'create'])->name('admin-create-galeri-photo');
     Route::post('admin-store-galeri-photo',[GaleriPhotoController::class, 'store'])->name('admin-store-galeri-photo');
@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('admin-edit-galeri-photo/{post}',[GaleriPhotoController::class, 'edit'])->name('admin-edit-galeri-photo');
     // Route-User
-    Route::get('/user-dashboard',[AdminDashboard::class, 'index'])->name('user-dashboard');
+    Route::get('/user-dashboard',[UserDashboardController::class, 'index'])->name('user-dashboard');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

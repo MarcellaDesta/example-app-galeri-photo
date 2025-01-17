@@ -38,4 +38,10 @@ class Post extends Model
         }
 
     }
+
+    // 1 postingan memiliki banyak likes
+    public function likes()
+    {
+        return $this->hasMany(Like::class);
+    }
 }

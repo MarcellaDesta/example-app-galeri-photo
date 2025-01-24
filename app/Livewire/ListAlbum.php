@@ -27,6 +27,5 @@ class ListAlbum extends Component
         // query mengambil data dari tabel posts
         // dd('fungsi ini sudah ke trigger');
         $this->listAlbum = Post::with(['images', 'likes'])->get();
-        dd($this->listAlbum);
     }
 }
